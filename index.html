@@ -1,71 +1,45 @@
 <!doctype html>
+<!--
+    club.hipo.finance now only forwards to the Club on the website (website specs/club-website.md
+    §10; club-server specs/club-launch-runbook.md S7a). The old app's source stays in src/ and still
+    typechecks and lints, but this page no longer loads it. `git revert` of this change brings the
+    app back.
+
+    Everything after the path is carried over byte for byte: the query (Telegram's
+    tgWebAppStartParam on a direct link) and the fragment (tgWebAppData, tgWebAppVersion,
+    tgWebAppPlatform, tgWebAppThemeParams), which the new page reads from its own location.hash. It
+    is cut out of location.href rather than rebuilt from location.search and location.hash, so no
+    browser's decoding of either can change a byte.
+
+    location.replace, so the old page leaves no entry in the history. The meta refresh is only for a
+    browser without JavaScript; it sits in <noscript> because, outside it, it could fire after the
+    script's navigation began and land on /club/ without the fragment.
+
+    public/ (nft/, games/, tonconnect-manifest.json, the icons) is still published unchanged: the
+    server's NFT metadata and invoice photo point at it.
+-->
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
-        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Hipo Club</title>
+        <meta name="robots" content="noindex" />
+        <link rel="canonical" href="https://hipo.finance/club/" />
         <link rel="icon" href="/assets/favicon-CxJwN-g6.png" />
-        <!-- <script src="https://sad.adsgram.ai/js/sad.min.js"></script> -->
-        <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="283061"></script>
-        <script src="https://js.onclckvd.com/in-stream-ad-admanager/tma.js"></script>
-        <script src="https://cdn.tailwindcss.com"></script>
-      <script type="module" crossorigin src="/assets/index-CVTIReQv.js"></script>
-      <link rel="modulepreload" crossorigin href="/assets/lib-Zf_6z3vS.js">
-      <link rel="modulepreload" crossorigin href="/assets/tonconnect-BEQU_iqA.js">
-      <link rel="modulepreload" crossorigin href="/assets/ton-CkOBIFHM.js">
-      <link rel="stylesheet" crossorigin href="/assets/index-D9WHuFck.css">
-      <meta name="build" content="c4b6436">
+        <script>
+            ;(function () {
+                var href = window.location.href
+                var cut = href.search(/[?#]/)
+                window.location.replace('https://hipo.finance/club/' + (cut < 0 ? '' : href.slice(cut)))
+            })()
+        </script>
+        <noscript><meta http-equiv="refresh" content="0; url=https://hipo.finance/club/" /></noscript>
+      <meta name="build" content="39c034e">
     </head>
 
-    <body class="cursor-default select-none bg-black text-white" style="background-color: #0e0e0e; margin: 0">
-        <div id="root" class="min-h-screen min-w-full">
-            <div
-                class="flex h-screen items-center justify-center bg-cover bg-center bg-no-repeat"
-                style="background-image: url(/splash-bg.webp)"
-            >
-                <div class="absolute mx-auto w-full text-center">
-                    <img src="/splash-logo.svg" class="mx-auto mb-4 w-24" />
-                    <p class="font-serif text-2xl font-bold text-white">Hipo</p>
-                </div>
-            </div>
-        </div>
-
-        <div
-            class="pointer-events-none fixed z-30 hidden -translate-x-1/2 -translate-y-16 text-3xl font-bold text-white transition-all duration-700 ease-out"
-            id="plusEffect"
-        ></div>
-
-        <canvas
-            id="confetti"
-            class="pointer-events-none fixed left-0 top-0 z-30 h-screen w-screen"
-            width="0"
-            height="0"
-        ></canvas>
-
-
-        <script async src="https://tganalytics.xyz/index.js"></script>
-        <script>
-            window.addEventListener('load', function () {
-                if (location.host === 'club.hipo.finance' && window.telegramAnalytics) {
-                    window.telegramAnalytics.init({
-                        token: 'eyJhcHBfbmFtZSI6IkhpcG9DbHViIiwiYXBwX3VybCI6Imh0dHBzOi8vdC5tZS9IaXBvRmluYW5jZUJvdCIsImFwcF9kb21haW4iOiJodHRwczovL2NsdWIuaGlwby5maW5hbmNlIn0=!VsKx5HtXZ/gQBzSTRjIcRKjgb/oqHkDhv+6jK0zZwFU=',
-                        appName: 'HipoClub',
-                    })
-                }
-            })
-        </script>
-
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWCG8QXVC0"></script>
-        <script>
-            window.dataLayer = window.dataLayer || []
-            function gtag() {
-                dataLayer.push(arguments)
-            }
-
-            gtag('js', new Date())
-
-            gtag('config', 'G-NWCG8QXVC0')
-        </script>
+    <body style="background-color: #0e0e0e; color: #fff; margin: 0; font-family: sans-serif">
+        <p style="padding: 24px; text-align: center">
+            Hipo Club has moved to <a href="https://hipo.finance/club/" style="color: #fff">hipo.finance/club</a>.
+        </p>
     </body>
 </html>
